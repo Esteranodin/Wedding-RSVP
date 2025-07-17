@@ -33,93 +33,104 @@ export default function RSVPForm() {
 
   if (submitted) {
     return (
-      <div className="success-message">
-        <h2>Merci pour votre réponse !</h2>
-        <p>Nous avons bien reçu votre confirmation.</p>
+      <div className="card-elegant text-center">
+        <h2 className="title-secondary text-flashy-green mb-4">Merci pour votre réponse !</h2>
+        <div className="separator-art-deco"></div>
+        <p className="text-readable">
+          Nous avons bien reçu votre confirmation.<br/>
+          À très bientôt pour faire la fête ! 🎉
+        </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rsvp-form">
-      <h2>Confirmez votre présence</h2>
+    <div className="space-y-6">
+      <h2 className="title-secondary text-center">Confirmez votre présence</h2>
       
-      <div className="form-group">
-        <label htmlFor="name">Nom et prénom</label>
-        <input 
-          type="text" 
-          id="name" 
-          value={name} 
-          onChange={(e) => setName(e.target.value)}
-          required 
-        />
-      </div>
-      
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)}
-          required 
-        />
-      </div>
-      
-      <div className="form-group">
-        <label>Participation</label>
-        <div className="radio-group">
-          <label>
-            <input 
-              type="radio" 
-              checked={attending} 
-              onChange={() => setAttending(true)} 
-            />
-            Je serai présent(e)
-          </label>
-          <label>
-            <input 
-              type="radio" 
-              checked={!attending} 
-              onChange={() => setAttending(false)} 
-            />
-            Je ne pourrai pas venir
-          </label>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="name">Nom et prénom</label>
+          <input 
+            type="text" 
+            id="name" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)}
+            required 
+          />
         </div>
-      </div>
-      
-      {attending && (
-        <>
-          <div className="form-group">
-            <label htmlFor="guests">Nombre d'accompagnants</label>
-            <select 
-              id="guests" 
-              value={guests} 
-              onChange={(e) => setGuests(e.target.value)}
-            >
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
+        
+        <div>
+          <label htmlFor="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)}
+            required 
+          />
+        </div>
+        
+        <div>
+          <label className="mb-4 block">Participation</label>
+          <div className="space-y-3">
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input 
+                type="radio" 
+                name="attending"
+                checked={attending} 
+                onChange={() => setAttending(true)}
+                className="w-5 h-5 text-flashy-green"
+              />
+              <span className="text-readable">Je serai présent(e) 🎉</span>
+            </label>
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input 
+                type="radio" 
+                name="attending"
+                checked={!attending} 
+                onChange={() => setAttending(false)}
+                className="w-5 h-5 text-flashy-pink"
+              />
+              <span className="text-readable">Je ne pourrai pas venir 😢</span>
+            </label>
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="dietary">Régimes alimentaires particuliers</label>
-            <textarea 
-              id="dietary" 
-              value={dietary} 
-              onChange={(e) => setDietary(e.target.value)}
-              placeholder="Allergies, préférences..."
-            />
-          </div>
-        </>
-      )}
-      
-      <button type="submit" className="submit-btn">
-        Envoyer ma réponse
-      </button>
-    </form>
+        </div>
+        
+        {attending && (
+          <>
+            <div>
+              <label htmlFor="guests">Nombre d'accompagnants</label>
+              <select 
+                id="guests" 
+                value={guests} 
+                onChange={(e) => setGuests(e.target.value)}
+              >
+                <option value="0">0 - Je viens seul(e)</option>
+                <option value="1">1 accompagnant</option>
+                <option value="2">2 accompagnants</option>
+                <option value="3">3 accompagnants</option>
+                <option value="4">4 accompagnants</option>
+              </select>
+            </div>
+            
+            <div>
+              <label htmlFor="dietary">Régimes alimentaires particuliers</label>
+              <textarea 
+                id="dietary" 
+                value={dietary} 
+                onChange={(e) => setDietary(e.target.value)}
+                placeholder="Allergies, végétarien, végan, sans gluten..."
+                rows="3"
+              />
+            </div>
+          </>
+        )}
+        
+        <button type="submit" className="btn-elegant w-full hover-lift">
+          Envoyer ma réponse
+        </button>
+      </form>
+    </div>
   );
 }
