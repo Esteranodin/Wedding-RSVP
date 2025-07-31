@@ -1,13 +1,30 @@
+"use client";
+
 import './globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
-
-export const metadata = {
-  title: 'Notre Mariage',
-  description: 'Nous vous invitons à célébrer notre union',
-}
+import { useState, useEffect } from 'react';
 
 export default function RootLayout({ children }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Fermer le menu quand on clique sur un lien
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  // Fermer le menu si on redimensionne la fenêtre
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <html lang="fr">
       <head>
@@ -15,32 +32,37 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <div className="main-container">
-
           <header className="header-elegant">
             <nav className="nav-container">
-              <Link href="/" className="logo-header">
+              <Link href="/admin" onClick={closeMenu}>
                 <Image 
                   src="/m-logo.png" 
-                  alt="Marie & Thomas" 
+                  alt="Marion & Benjamin" 
                   width={50} 
                   height={50}
                   className="logo-wedding-small"
                 />
               </Link>
               
-              <div className="nav-links">
-                <Link href="/" className="nav-link">
+              <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+                <Link href="/" className="nav-link" onClick={closeMenu}>
                   Accueil
                 </Link>
-                <Link href="/rsvp" className="nav-link">
-                  RSVP
+                <Link href="/rsvp" className="nav-link" onClick={closeMenu}>
+                  Votre présence
                 </Link>
-                <Link href="/infos" className="nav-link">
+                <Link href="/infos" className="nav-link" onClick={closeMenu}>
                   Infos pratiques
                 </Link>
-                <Link href="/admin" className="nav-link">
-                  Admin
-                </Link>
+              </div>
+
+              <div 
+                className={`burger-menu ${isMenuOpen ? 'active' : ''}`}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <div className="burger-line"></div>
+                <div className="burger-line"></div>
+                <div className="burger-line"></div>
               </div>
             </nav>
           </header>
@@ -48,8 +70,7 @@ export default function RootLayout({ children }) {
           {children}
           
           <footer className="footer-elegant">
-            <p className="mb-1">Créé avec amour pour notre mariage</p>
-            <p className="text-xs opacity-70">© {new Date().getFullYear()}</p>
+            <p className="text-xs opacity-70">© Les Chouks {new Date().getFullYear()}</p>
           </footer>
         </div>
       </body>

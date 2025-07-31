@@ -115,10 +115,6 @@ Quelques idées d'extensions:
 
 Ce projet est sous licence MIT. Libre à vous de l'utiliser et de le modifier pour votre propre mariage !
 
-## 💖 Crédit
-
-Créé avec amour pour célébrer votre union.
-
 ---
 
 Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue sur ce dépôt.
