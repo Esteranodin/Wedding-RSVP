@@ -38,8 +38,8 @@ export default function RootLayout({ children }) {
                 <Image 
                   src="/m-logo.png" 
                   alt="Marion & Benjamin" 
-                  width={50} 
-                  height={50}
+                  width={100} 
+                  height={150}
                   className="logo-wedding-small"
                 />
               </Link>

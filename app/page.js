@@ -24,28 +24,25 @@ export default function Home() {
         </div>
 
         <p className="text-readable text-center mb-6">
-         Si vous avez envie de vous joindre à nous pour célébrer notre mariage</p>
+       Voulez-vous, vous joindre à nous pour célébrer notre mariage</p>
 
         <div className="text-center mb-6">
-          <div className="title-secondary mb-2">15:30</div>
-          <div className="text-decorative">L'abbaye de Pébrac</div>
+          <div className="title-secondary mb-2">15h30</div>
+          <div className="text-decorative">à L'abbaye de Pébrac</div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <Link
-            href="/rsvp"
-            className="btn-elegant hover-lift"
-          >
-            Confirmer ma présence
-            <div className="text-sm mt-1 opacity-80 normal-case">Répondre avant le 30 août 2025</div>
-          </Link>
-
+        <div className="buttons-container grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           <Link
             href="/infos"
-            className="btn-elegant hover-lift"
+            className="btn-elegant hover-lift md:mr-6"
           >
-            Informations pratiques
-            <div className="text-sm mt-1 opacity-80 normal-case">Tous les détails</div>
+            Toutes les infos ici
+          </Link>
+          <Link
+            href="/rsvp"
+            className="btn-elegant hover-lift md:ml-6"
+          >
+            Pour confirmer votre présence (avant le 15 septembre 2025), c'est ici !
           </Link>
         </div>
       </section>
