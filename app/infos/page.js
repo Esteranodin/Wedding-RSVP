@@ -7,17 +7,16 @@ export const metadata = {
 
 export default function Infos() {
   return (
-    <div className="page-bg">
+    <div className="page-bg mt-header">
       <div className="content-wrapper">
         <div className="form-elegant w-full max-w-4xl">
           <Link href="/" className="inline-block mb-6 text-decorative hover:opacity-70 transition-opacity">
             ← Retour à l'accueil
           </Link>
           
-          <h1 className="title-main text-center mb-8">Informations pratiques</h1>
+          <h1 className="title-main text-center mb-8">Les infos</h1>
           
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Lieu et horaires */}
             <div className="card-elegant">
               <h2 className="title-secondary mb-4 text-flashy-purple">📍 Lieu et horaires</h2>
               <div className="space-y-4">

@@ -11,38 +11,33 @@ export default function Home() {
           <Image
             src="/m-logo.png"
             alt="Logo du mariage"
-            width={190}
-            height={160}
+            width={140} // taille réduite pour mobile
+            height={120}
             className="logo-wedding"
           />
           <h1 className="title-main">
-            Ben & M
+            Ben & Marion
           </h1>
         </div>
-        <div className="text-decorative text-center mb-6">
-          31 • Octobre • 2025
+        <p className="text-readable">
+          On aimerait que vous soyez avec nous pour célébrer notre mariage 🖤
+        </p>
+        <div className="text-center mb-4">
+          <div className="text-decorative">vendredi 31&nbsp;octobre</div>
+          <div className="title-secondary mb-2">14h30 </div>
         </div>
-
-        <p className="text-readable text-center mb-6">
-       Voulez-vous, vous joindre à nous pour célébrer notre mariage</p>
-
-        <div className="text-center mb-6">
-          <div className="title-secondary mb-2">15h30</div>
-          <div className="text-decorative">à L'abbaye de Pébrac</div>
-        </div>
-
-        <div className="buttons-container grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        <div className="buttons-container mt-6">
           <Link
             href="/infos"
-            className="btn-elegant hover-lift md:mr-6"
+            className="btn-elegant"
           >
             Toutes les infos ici
           </Link>
           <Link
             href="/rsvp"
-            className="btn-elegant hover-lift md:ml-6"
+            className="btn-elegant"
           >
-            Pour confirmer votre présence (avant le 15 septembre 2025), c'est ici !
+            Pour confirmer votre présence (avant le 20&nbsp;septembre 2025), c'est ici !
           </Link>
         </div>
       </section>

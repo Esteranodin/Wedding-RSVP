@@ -101,7 +101,7 @@ export default function Admin() {
   }
 
   return (
-    <div className="page-bg">
+    <div className="page-bg mt-header">
       <div className="content-wrapper">
         <div className="form-elegant w-full max-w-6xl">
           <Link href="/" className="inline-block mb-6 text-decorative hover:opacity-70 transition-opacity">

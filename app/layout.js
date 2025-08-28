@@ -48,11 +48,11 @@ export default function RootLayout({ children }) {
                 <Link href="/" className="nav-link" onClick={closeMenu}>
                   Accueil
                 </Link>
-                <Link href="/rsvp" className="nav-link" onClick={closeMenu}>
-                  Votre présence
-                </Link>
                 <Link href="/infos" className="nav-link" onClick={closeMenu}>
                   Infos pratiques
+                </Link>
+                <Link href="/rsvp" className="nav-link" onClick={closeMenu}>
+                  Votre présence&nbsp;?
                 </Link>
               </div>
 
