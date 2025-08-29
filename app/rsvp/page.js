@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function RSVP() {
   return (
-    <div className="page-bg mt-header">
+    <div className="page-bg">
       <div className="content-wrapper">
         <div className="form-elegant">
           <Link href="/" className="inline-block mb-6 text-decorative hover:opacity-70 transition-opacity">

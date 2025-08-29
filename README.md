@@ -50,7 +50,7 @@ Application web simple pour gérer les confirmations de présence à votre maria
 
 4. **Démarrer le serveur de développement**
    ```bash
-   npm run dev
+    
    ```
 
 5. **Accéder à l'application**

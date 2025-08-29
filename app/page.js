@@ -24,7 +24,7 @@ export default function Home() {
         </p>
         <div className="text-center mb-4">
           <div className="text-decorative">vendredi 31&nbsp;octobre</div>
-          <div className="title-secondary mb-2">14h30 </div>
+          <div className="title-secondary mb-2">À partir de 14h30 </div>
         </div>
         <div className="buttons-container mt-6">
           <Link
