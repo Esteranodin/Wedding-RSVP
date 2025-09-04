@@ -1,8 +1,12 @@
-"use client";
-
 import Link from 'next/link';
 import Image from 'next/image';
 
+export const metadata = {
+  title: "Mariage ♥ Ben & Marion",
+  description: "Bienvenue sur le site du mariage de Ben & Marion",
+};
+
+// ...existing code...
 export default function Home() {
   return (
     <div className="home-bg">
@@ -11,7 +15,7 @@ export default function Home() {
           <Image
             src="/m-logo.png"
             alt="Logo du mariage"
-            width={140} // taille réduite pour mobile
+            width={140} 
             height={120}
             className="logo-wedding"
           />
@@ -22,9 +26,9 @@ export default function Home() {
         <p className="text-readable">
           On aimerait que vous soyez avec nous pour célébrer notre mariage 🖤
         </p>
-        <div className="text-center mb-4">
-          <div className="text-decorative">vendredi 31&nbsp;octobre</div>
-          <div className="title-secondary mb-2">À partir de 14h30 </div>
+        <div className="text-center">
+          <h2 className="text-decorative">vendredi 31&nbsp;octobre</h2>
+          <h3 className="title-secondary">À partir de 14h30 </h3>
         </div>
         <div className="buttons-container mt-6">
           <Link
@@ -37,7 +41,7 @@ export default function Home() {
             href="/rsvp"
             className="btn-elegant"
           >
-            Pour confirmer votre présence (avant le 20&nbsp;septembre 2025), c'est ici !
+            Pour confirmer votre présence (avant le 25&nbsp;septembre 2025), c'est ici !
           </Link>
         </div>
       </section>

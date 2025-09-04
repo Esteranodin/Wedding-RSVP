@@ -41,12 +41,16 @@ body {
 }
 
 h1,
-h2,
-h3,
 h4,
 h5,
 h6 {
   font-family: var(--font-title);
+}
+
+h2,
+h3 {
+  font-family: var(--font-main);
+  font-weight: 600;
 }
 
 /* ===============================================
@@ -254,17 +258,27 @@ h6 {
    TYPOGRAPHIES
    =============================================== */
 
+.title {
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  color: var(--midnight);
+  text-align: center;
+  letter-spacing: 0.05em;
+  position: relative;
+  padding: 1rem;
+}
+
 .title-secondary {
   font-size: clamp(1.5rem, 5vw, 3rem);
-  font-weight: 500;
   color: var(--deep-emerald);
-  margin: 1.5rem 0;
   letter-spacing: 0.02em;
   text-align: center;
+  padding: 1rem 0;
 }
 
 .text-decorative {
-  font-size: clamp(1.3rem, 2.5vw, 3rem);
+  font-size: clamp(1.3rem, 2vw, 3rem);
   margin: 1rem 0;
   color: var(--copper);
   letter-spacing: 0.3em;
@@ -273,13 +287,37 @@ h6 {
   text-align: center;
 }
 
+.text-link {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  margin: 1rem 0;
+  color: var(--copper);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.text-link:hover {
+  opacity: 0.8;
+}
+
 .text-readable {
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  font-size: clamp(1.1rem, 2vw, 1.8rem);
   color: var(--charcoal);
   line-height: 1.7;
   font-weight: 400;
   text-align: center;
 }
+
+.text-strong {
+  font-size: clamp(1.8rem, 2vw, 2.2rem);
+  color: var(--deep-emerald);
+  font-weight: 800;
+  text-align: center;
+  padding: 1rem 0;
+}
+
 
 /* ===============================================
    BOUTONS
@@ -319,6 +357,7 @@ h6 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 
@@ -498,20 +537,22 @@ h6 {
 }
 
 @media (min-width: 769px) and (max-width: 1199px) {
+
   .home-bg,
   .page-bg {
     align-items: flex-start;
     padding-top: 6rem;
-    min-height: auto;         
-    overflow-y: auto;         
+    min-height: auto;
+    overflow-y: auto;
   }
+
   .content-zone,
   .form-elegant {
-    padding: 2rem 4rem;      
-    margin: 4rem auto 1rem;        
+    padding: 2rem 4rem;
+    margin: 4rem auto 1rem;
     max-width: 98%;
-    /* margin-top: 4rem; */
   }
+
   .content-zone .logo-container {
     margin-bottom: 1rem;
   }
@@ -523,5 +564,3 @@ h6 {
     padding: 4rem;
   }
 }
-
-
