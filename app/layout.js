@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
         <div className="main-container">
           <header className="header-elegant">
             <nav className="nav-container">
-              <Link href="/admin" onClick={closeMenu}>
+            
                 <Image 
                   src="/m-logo.png" 
                   alt="Marion & Benjamin" 
@@ -42,7 +42,6 @@ export default function RootLayout({ children }) {
                   height={150}
                   className="logo-wedding-small"
                 />
-              </Link>
               
               <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
                 <Link href="/" className="nav-link" onClick={closeMenu}>
@@ -69,8 +68,9 @@ export default function RootLayout({ children }) {
           
           {children}
           
-          <footer className="footer-elegant">
-            <p className="text-xs opacity-70">© Les Chouks {new Date().getFullYear()}</p>
+          <footer className="footer-elegant mt-auto">
+          <p>© Les Chouks {new Date().getFullYear()}</p>
+          <Link href="/admin" onClick={closeMenu} className='text-rose-400 text-lg font-semibold'>Espace des témoins</Link>
           </footer>
         </div>
       </body>

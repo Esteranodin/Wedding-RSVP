@@ -34,7 +34,7 @@ export default function RSVPForm() {
   if (submitted) {
     return (
       <div className="card-elegant text-center">
-        <h2 className="title-secondary text-flashy-green mb-4">Merci pour votre réponse !</h2>
+        <h2 className="title-secondary  mb-4">Merci pour votre réponse !</h2>
         <div className="separator-art-deco"></div>
         <p className="text-readable">
           Nous avons bien reçu votre confirmation.<br/>
@@ -80,7 +80,7 @@ export default function RSVPForm() {
                 name="attending"
                 checked={attending} 
                 onChange={() => setAttending(true)}
-                className="w-5 h-5 text-flashy-green"
+                className="w-5 h-5 "
               />
               <span className="text-readable">Je serai présent(e) 🎉</span>
             </label>

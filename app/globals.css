@@ -1,34 +1,6 @@
-/* ===============================================
-   PALETTE DE COULEURS & VARIABLES
-   =============================================== */
-:root {
-  /* Couleurs principales */
-  --gold: #D4AF37;
-  --deep-emerald: #2D5A3D;
-  --midnight: #2C3E50;
-  --pearl: #F8F6F0;
-  --sage: #9CAF88;
-  --dusty-rose: #D4A5A5;
-  --copper: #B87333;
-  --ivory: #f0d7d152;
-  --charcoal: #36454F;
-
-  --zone-padding: 3rem;
-  --zone-width: 900px;
-  --card-padding: 2rem;
-  --card-margin: 1rem;
-
-  --font-main: 'Montserrat', sans-serif;
-  --font-title: 'Playfair Display', serif;
-}
-
-/* ===============================================
-   BASE & RESET
-   =============================================== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 html,
 body {
@@ -53,6 +25,29 @@ h3 {
   font-weight: 600;
 }
 
+/* ===============================================
+   PALETTE DE COULEURS & VARIABLES
+   =============================================== */
+:root {
+  /* Couleurs principales */
+  --gold: #D4AF37;
+  --deep-emerald: #2D5A3D;
+  --midnight: #2C3E50;
+  --pearl: #F8F6F0;
+  --sage: #9CAF88;
+  --dusty-rose: #D4A5A5;
+  --copper: #B87333;
+  --ivory: #f0d7d152;
+  --charcoal: #36454F;
+
+  --zone-padding: 2rem;
+  --zone-width: 900px;
+  --card-padding: 2rem;
+  --card-margin: 1rem;
+
+  --font-main: 'Montserrat', sans-serif;
+  --font-title: 'Playfair Display', serif;
+}
 /* ===============================================
    LAYOUT PRINCIPAL
    =============================================== */
@@ -184,7 +179,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7rem 1rem 0;
+  padding: 6rem 1rem 0;
   position: relative;
 }
 
@@ -251,7 +246,6 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* padding: 1rem; */
 }
 
 /* ===============================================
@@ -270,18 +264,16 @@ h3 {
 }
 
 .title-secondary {
-  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-size: clamp(1.5rem, 5vw, 2rem);
   color: var(--deep-emerald);
-  letter-spacing: 0.02em;
   text-align: center;
-  padding: 1rem 0;
 }
 
 .text-decorative {
-  font-size: clamp(1.3rem, 2vw, 3rem);
+  font-size: clamp(1.5rem, 2vw, 2.3rem);
   margin: 1rem 0;
   color: var(--copper);
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 700;
   text-align: center;
@@ -289,7 +281,7 @@ h3 {
 
 .text-link {
   font-size: clamp(1rem, 2vw, 1.5rem);
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   color: var(--copper);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -303,16 +295,16 @@ h3 {
 }
 
 .text-readable {
-  font-size: clamp(1.1rem, 2vw, 1.8rem);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
   color: var(--charcoal);
   line-height: 1.7;
   font-weight: 400;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .text-strong {
-  font-size: clamp(1.8rem, 2vw, 2.2rem);
-  color: var(--deep-emerald);
+  font-size: clamp(1.8rem, 2vw, 2rem);
+  color: var(--charcoal);
   font-weight: 800;
   text-align: center;
   padding: 1rem 0;
@@ -426,7 +418,6 @@ h3 {
   color: var(--charcoal);
   text-align: center;
   font-size: 0.9rem;
-  margin-top: auto;
 }
 
 /* ===============================================
@@ -529,11 +520,6 @@ h3 {
     padding: 1.5rem;
     margin: 0.5rem;
   }
-
-  .home-bg,
-  .page-bg {
-    padding-top: 6rem;
-  }
 }
 
 @media (min-width: 769px) and (max-width: 1199px) {
@@ -541,7 +527,7 @@ h3 {
   .home-bg,
   .page-bg {
     align-items: flex-start;
-    padding-top: 6rem;
+    padding-top: 5rem;
     min-height: auto;
     overflow-y: auto;
   }
@@ -561,6 +547,5 @@ h3 {
 @media (min-width: 1200px) {
   .content-zone {
     max-width: 1000px;
-    padding: 4rem;
   }
 }

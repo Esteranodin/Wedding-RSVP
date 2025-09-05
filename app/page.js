@@ -23,14 +23,14 @@ export default function Home() {
             Ben & Marion
           </h1>
         </div>
-        <p className="text-readable">
+        <p className="text-readable text-center py-2">
           On aimerait que vous soyez avec nous pour célébrer notre mariage 🖤
         </p>
         <div className="text-center">
           <h2 className="text-decorative">vendredi 31&nbsp;octobre</h2>
-          <h3 className="title-secondary">À partir de 14h30 </h3>
+          <h3 className="title-secondary py-4">À partir de 14h30 </h3>
         </div>
-        <div className="buttons-container mt-6">
+        <div className="buttons-container my-6">
           <Link
             href="/infos"
             className="btn-elegant"
