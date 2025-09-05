@@ -4,6 +4,7 @@ import Image from 'next/image';
 export const metadata = {
   title: "Mariage ♥ Ben & Marion",
   description: "Bienvenue sur le site du mariage de Ben & Marion",
+  robots: "noindex, nofollow"
 };
 
 // ...existing code...

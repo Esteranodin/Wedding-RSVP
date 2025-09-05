@@ -4,23 +4,25 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Confirmer votre présence - Notre Mariage',
   description: 'Formulaire de confirmation de présence à notre mariage',
+  robots: 'noindex, nofollow'
 }
 
 export default function RSVP() {
   return (
     <div className="page-bg">
-      <div className="content-wrapper">
-        <div className="form-elegant">
-          <Link href="/" className="inline-block mb-6 text-decorative hover:opacity-70 transition-opacity">
-            ← Retour à l'accueil
-          </Link>
-          
-          <h1 className="title-main text-center mb-8">Confirmer votre présence</h1>
-          <RSVPForm />
-          <div className="text-center mt-8">
-            <p className="text-readable">Merci de votre réponse !</p>
+      <div className="content-wrapper flex flex-col">
+        <section className="form-elegant">
+          <div className="gap-8 flex justify-between">
+            <Link href="/" className="text-link">
+              ←&nbsp;Accueil
+            </Link>
+            <Link href="/infos" className="text-link">
+              Infos&nbsp;→
+            </Link>
           </div>
-        </div>
+          <h1 className="title">Confirmer votre présence</h1>
+          <RSVPForm />
+        </section>
       </div>
     </div>
   );

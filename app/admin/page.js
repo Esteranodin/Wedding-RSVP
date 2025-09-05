@@ -12,7 +12,7 @@ export default function Admin() {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ attending: 0, notAttending: 0, totalGuests: 0 });
+  const [stats, setStats] = useState({ attending: 0, notAttending: 0, totalGuests: 0, sleepingOnSite: 0 });
   const [error, setError] = useState('');
 
   // Écoute l'état d'authentification
@@ -46,8 +46,9 @@ export default function Admin() {
       const totalGuests = guestList.reduce((acc, guest) => {
         return guest.attending ? acc + 1 + (guest.guestCount || 0) : acc;
       }, 0);
+      const sleepingOnSite = guestList.filter(g => g.attending && g.sleeping).length;
       
-      setStats({ attending, notAttending, totalGuests });
+      setStats({ attending, notAttending, totalGuests, sleepingOnSite });
     } catch (error) {
       console.error("Erreur lors du chargement :", error);
       setError("Erreur lors du chargement des données");
@@ -163,7 +164,7 @@ export default function Admin() {
               )}
               
               {/* Stats rapides */}
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-4 gap-6">
                 <div className="card-elegant text-center">
                   <div className="title-secondary text-deep-emerald">{stats.attending}</div>
                   <div className="text-decorative">Confirmés</div>
@@ -178,6 +179,11 @@ export default function Admin() {
                   <div className="title-secondary text-gold">{stats.totalGuests}</div>
                   <div className="text-decorative">Total invités</div>
                 </div>
+                
+                <div className="card-elegant text-center">
+                  <div className="title-secondary text-deep-emerald">{stats.sleepingOnSite || 0}</div>
+                  <div className="text-decorative">Dorment sur place</div>
+                </div>
               </div>
               
               {/* Liste simplifiée */}
@@ -189,46 +195,70 @@ export default function Admin() {
                 ) : (
                   <div className="space-y-4">
                     {guests.map(guest => (
-                      <div key={guest.id} className="flex justify-between items-center p-4 bg-pearl bg-opacity-50 rounded border">
-                        <div className="flex-1">
+                      <div key={guest.id} className="p-4 bg-pearl bg-opacity-50 rounded border">
+                        <div className="flex justify-between items-start gap-4">
                           <div className="flex items-center gap-4">
                             <div className={`text-2xl ${guest.attending ? 'text-deep-emerald' : 'text-dusty-rose'}`}>
                               {guest.attending ? '✓' : '✗'}
                             </div>
                             <div>
                               <div className="font-semibold text-readable">{guest.name}</div>
-                              <div className="text-sm text-decorative">{guest.email}</div>
+                              {guest.lastname && guest.firstname && (
+                                <div className="text-sm text-decorative">{guest.firstname} {guest.lastname}</div>
+                              )}
                             </div>
                           </div>
+                          
+                          <button 
+                            onClick={() => deleteGuest(guest.id)}
+                            className="text-red-600 hover:text-red-800 text-sm px-2 py-1"
+                            title="Supprimer"
+                          >
+                            🗑️
+                          </button>
                         </div>
                         
                         {guest.attending && (
-                          <div className="text-center mx-4">
-                            <div className="font-semibold text-readable">+{guest.guestCount || 0}</div>
-                            <div className="text-xs text-decorative">accomp.</div>
+                          <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div className="text-center">
+                              <div className="font-semibold text-readable">+{guest.guestCount || 0}</div>
+                              <div className="text-xs text-decorative">accompagnants</div>
+                            </div>
+                            
+                            <div className="text-center">
+                              <div className="font-semibold text-readable">
+                                {guest.attendingEvents ? 
+                                  (guest.attendingEvents.includes('ceremony') && guest.attendingEvents.includes('party') ? 'Cérémonie + Soirée' :
+                                   guest.attendingEvents.includes('ceremony') ? 'Cérémonie seule' :
+                                   guest.attendingEvents.includes('party') ? 'Soirée seule' : 'Non défini')
+                                  : 'Non défini'
+                                }
+                              </div>
+                              <div className="text-xs text-decorative">participation</div>
+                            </div>
+                            
+                            <div className="text-center">
+                              <div className="font-semibold text-readable">
+                                {guest.sleeping ? '😴 Oui' : '🏠 Non'}
+                              </div>
+                              <div className="text-xs text-decorative">dort sur place</div>
+                            </div>
+                            
+                            <div className="text-center">
+                              <div className="text-sm text-readable">
+                                {guest.timestamp?.toDate().toLocaleDateString('fr-FR')}
+                              </div>
+                              <div className="text-xs text-decorative">date réponse</div>
+                            </div>
                           </div>
                         )}
                         
                         {guest.dietary && (
-                          <div className="text-center mx-4 max-w-xs">
-                            <div className="text-sm text-readable truncate">{guest.dietary}</div>
-                            <div className="text-xs text-decorative">régime</div>
+                          <div className="mt-3 p-2 bg-white bg-opacity-50 rounded">
+                            <div className="text-xs text-decorative">Régimes alimentaires :</div>
+                            <div className="text-sm text-readable">{guest.dietary}</div>
                           </div>
                         )}
-                        
-                        <div className="text-center mx-4">
-                          <div className="text-sm text-readable">
-                            {guest.timestamp?.toDate().toLocaleDateString('fr-FR')}
-                          </div>
-                        </div>
-                        
-                        <button 
-                          onClick={() => deleteGuest(guest.id)}
-                          className="text-red-600 hover:text-red-800 text-sm px-2 py-1"
-                          title="Supprimer"
-                        >
-                          🗑️
-                        </button>
                       </div>
                     ))}
                   </div>

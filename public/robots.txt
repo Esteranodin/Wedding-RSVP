@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+# Empêche l'indexation de tout le site
+

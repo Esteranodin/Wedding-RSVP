@@ -299,7 +299,6 @@ h3 {
   color: var(--charcoal);
   line-height: 1.7;
   font-weight: 400;
-  /* text-align: center; */
 }
 
 .text-strong {
@@ -383,9 +382,14 @@ h3 {
   border: 1px solid var(--sage);
   padding: 1rem 1.2rem;
   font-size: 1rem;
-  width: 100%;
+  width: 90%;
   transition: all 0.3s ease;
   color: var(--charcoal);
+  border-radius: 4px;
+}
+
+.form-elegant input {
+  height: 1.5rem;
 }
 
 .form-elegant input:focus,
@@ -398,11 +402,11 @@ h3 {
 }
 
 .form-elegant label {
-  color: var(--deep-emerald);
-  font-weight: 500;
+  color: var(--midnight);
+  font-weight: 600;
   margin-bottom: 0.5rem;
-  display: block;
-  font-size: 1rem;
+  /* display: block; */
+  font-size: 1.3rem;
   letter-spacing: 0.05em;
 }
 

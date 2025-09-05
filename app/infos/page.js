@@ -3,6 +3,7 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Mariage ♥ Infos pratiques',
   description: 'Toutes les informations pratiques pour notre mariage',
+  robots: 'noindex, nofollow'
 }
 
 export default function Infos() {
