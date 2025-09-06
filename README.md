@@ -30,50 +30,61 @@ Application web simple pour gérer les confirmations de présence à votre maria
 
 ### Installation
 
-1. **Cloner le dépôt**
+1. Clonez ce dépôt
    ```bash
-   git clone https://github.com/votre-nom/wedding-rsvp.git
-   cd wedding-rsvp
+   git clone https://github.com/votre-username/wedding-site.git
+   cd wedding-site
    ```
 
-2. **Installer les dépendances**
+2. Installez les dépendances
    ```bash
    npm install
    ```
 
-3. **Configurer Firebase**
-   - Créer un projet sur [console.firebase.google.com](https://console.firebase.google.com/)
-   - Activer Firestore Database
-   - Activer Authentication (Email/Password)
-   - Créer un utilisateur admin dans Authentication
-   - Copier la configuration Firebase dans `lib/firebase.js`
-
-4. **Démarrer le serveur de développement**
+3. Configurez les variables d'environnement
+   - Copiez le fichier `.env.example` en `.env.local`
    ```bash
-    
+   cp .env.example .env.local
+   ```
+   - Remplissez les variables dans `.env.local` avec vos informations Firebase
+
+4. Lancez le serveur de développement
+   ```bash
+   npm run dev
    ```
 
-5. **Accéder à l'application**
-   - Ouvrir [http://localhost:3000](http://localhost:3000)
-   - Page admin: [http://localhost:3000/admin](http://localhost:3000/admin)
+5. Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur
+
+### Configuration Firebase
+
+1. Créez un projet dans [Firebase Console](https://console.firebase.google.com/)
+2. Activez Firestore Database
+3. Activez Authentication avec email/mot de passe
+4. Créez un utilisateur admin dans Authentication
+5. Copiez les informations de configuration dans votre fichier `.env.local`
 
 ## 📁 Structure du projet
 
 ```
-wedding-rsvp/
+wedding-site/
   ├── app/                   
   │   ├── page.js            # Page d'accueil
   │   ├── layout.js          # Layout commun
   │   ├── globals.css        # Styles globaux
   │   ├── rsvp/              # Route formulaire
   │   │   └── page.js        
+  │   ├── infos/             # Route informations
+  │   │   └── page.js
   │   ├── admin/             # Route admin
   │   │   └── page.js        
   ├── components/            # Composants réutilisables
-  │   └── RSVPForm.jsx       
+  │   ├── PresenceForm.js    # Formulaire RSVP
+  │   └── BackToTop.js       # Bouton "retour en haut"
   ├── lib/                   # Utilitaires
   │   └── firebase.js        # Configuration Firebase
   ├── public/                # Fichiers statiques
+  ├── .env.local             # Variables d'environnement (non commité)
+  ├── .env.example           # Exemple de variables d'environnement
   └── package.json           # Dépendances
 ```
 
@@ -81,8 +92,50 @@ wedding-rsvp/
 
 ### Déploiement sur Vercel
 
-1. Pousser votre code sur GitHub
-2. Aller sur [vercel.com](https://vercel.com)
+1. Créez un compte sur [Vercel](https://vercel.com) (idéalement en utilisant votre compte GitHub)
+2. Depuis votre dashboard Vercel, cliquez sur "Add New..." puis "Project"
+3. Importez votre dépôt GitHub
+4. Dans la configuration du projet :
+   - Framework Preset: Next.js (détecté automatiquement)
+   - Root Directory: ./
+   - Build Command: laisser la valeur par défaut
+   - Output Directory: laisser la valeur par défaut
+   - Environment Variables: ajoutez toutes les variables de votre fichier `.env.local`
+5. Cliquez sur "Deploy"
+
+### Variables d'environnement requises
+
+Ajoutez ces variables d'environnement dans la configuration de déploiement :
+
+```
+NEXT_PUBLIC_FIREBASE_API_KEY
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+NEXT_PUBLIC_FIREBASE_PROJECT_ID
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+NEXT_PUBLIC_FIREBASE_APP_ID
+```
+
+## ⚙️ Personnalisation
+
+### Textes et dates
+
+- Modifiez les textes dans `app/page.js` pour la page d'accueil
+- Mettez à jour les informations dans `app/infos/page.js` 
+- Ajustez la date limite de RSVP dans `app/rsvp/page.js`
+
+### Styles et couleurs
+
+- Les couleurs principales sont définies dans `tailwind.config.js` 
+- Vous pouvez modifier les styles globaux dans `app/globals.css`
+
+## 📝 Licence
+
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 📧 Contact
+
+Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter.
 3. Cliquer sur "New Project"
 4. Importer votre dépôt GitHub
 5. Conserver les paramètres par défaut
