@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import BackToTop from '../../components/BackToTop';
 
 export const metadata = {
   title: 'Mariage ♥ Infos pratiques',
@@ -207,7 +208,8 @@ export default function Infos() {
             </Link>
           </div>
         </div>
-      </section >
-    </div >
+      </section>
+      <BackToTop />
+    </div>
   );
 }

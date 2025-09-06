@@ -178,12 +178,12 @@ export default function Admin() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="card-elegant text-center p-4">
                   <div className="title-secondary text-deep-emerald mb-1">{stats.attending}</div>
-                  <div className="text-sm font-medium">invités ont répondu</div>
+                  <div className="text-sm font-medium">Invités ont répondu</div>
                 </div>
                 
                 <div className="card-elegant text-center p-4">
                   <div className="title-secondary text-dusty-rose mb-1">{stats.notAttending}</div>
-                  <div className="text-sm font-medium">invités ne viennent pas</div>
+                  <div className="text-sm font-medium">Invités ne viennent pas</div>
                 </div>
                 
                 <div className="card-elegant text-center p-4">
@@ -268,6 +268,12 @@ export default function Admin() {
                           <div className="mt-3 p-3 bg-white bg-opacity-50 rounded">
                             <div className="text-xs font-medium mb-1">Régimes alimentaires :</div>
                             <div className="text-sm">{guest.dietary}</div>
+                          </div>
+                        )}
+                        {guest.infos && (
+                          <div className="mt-3 p-3 bg-white bg-opacity-50 rounded">
+                            <div className="text-xs font-medium mb-1">Infos en plus :</div>
+                            <div className="text-sm">{guest.infos}</div>
                           </div>
                         )}
                       </div>

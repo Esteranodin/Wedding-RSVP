@@ -1,8 +1,9 @@
 import RSVPForm from '../../components/PresenceForm';
 import Link from 'next/link';
+import BackToTop from '../../components/BackToTop';
 
 export const metadata = {
-  title: 'Confirmer votre présence - Notre Mariage',
+  title: 'Mariage ♥ RSVP',
   description: 'Formulaire de confirmation de présence à notre mariage',
   robots: 'noindex, nofollow'
 }
@@ -24,6 +25,7 @@ export default function RSVP() {
           <RSVPForm />
         </section>
       </div>
+      <BackToTop />
     </div>
   );
 }

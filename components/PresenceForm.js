@@ -11,6 +11,7 @@ export default function RSVPForm() {
   const [sleeping, setSleeping] = useState(null);
   const [guests, setGuests] = useState('');
   const [dietary, setDietary] = useState('');
+  const [infos, setInfos] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [attendingEvents, setAttendingEvents] = useState([]);
   const [error, setError] = useState('');
@@ -26,6 +27,10 @@ export default function RSVPForm() {
     }
     if (!firstname.trim()) {
       setError('Le prénom est requis.');
+      return;
+    }
+    if (attending === null) {
+      setError('Merci d\'indiquer si vous venez.');
       return;
     }
     if (attending && attendingEvents.length === 0) {
@@ -193,7 +198,7 @@ export default function RSVPForm() {
                         className="sr-only"
                       />
                       <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded-full ${sleeping === true ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                    <span className="text-readable">Oui, je dors sur place 😬</span>
+                    <span className="text-readable">Oui, je dors sur place 🛏️</span>
                   </label>
                   <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mb-2">
                       <input
@@ -204,7 +209,7 @@ export default function RSVPForm() {
                         className="sr-only"
                       />
                       <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded-full ${sleeping === false ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                    <span className="text-readable">Non, j'ai trouvé un endroit pour mieux dormir pas loin 🤣</span>
+                    <span className="text-readable">Non, je fais dodo ailleurs</span>
                   </label>
               </div>
             )}
@@ -221,7 +226,7 @@ export default function RSVPForm() {
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '0' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                  <span className="text-readable">Je viens <strong>seul(e)</strong> vu que Marion tyran l'a dit :)</span>
+                  <span className="text-readable">Je viens <strong>seul(e)</strong> (Marion, ce mini tyran me l'a dit 😬)</span>
                 </label>
                 
                 <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
@@ -233,7 +238,7 @@ export default function RSVPForm() {
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '1' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                  <span className="text-readable">J'ai <strong>1 conjoint(e)</strong> ou un +1</span>
+                  <span className="text-readable">Je viens avec <strong>1 personne</strong></span>
                 </label>
                 
                 <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
@@ -245,7 +250,7 @@ export default function RSVPForm() {
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '2' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                  <span className="text-readable">J'ai <strong>1 enfant</strong> de plus de 12 ans</span>
+                  <span className="text-readable">Je viens avec <strong>2 personnes</strong> (dont 1 enfant)</span>
                 </label>
                 
                 <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
@@ -257,7 +262,7 @@ export default function RSVPForm() {
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '3' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                  <span className="text-readable">J'ai <strong>2 enfants</strong> de plus de 12 ans</span>
+                  <span className="text-readable">Je viens avec <strong>3 personnes</strong> (dont 2 enfant)</span>
                 </label>
                 
                 <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
@@ -269,7 +274,7 @@ export default function RSVPForm() {
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '4' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                  <span className="text-readable">J'ai <strong>3 enfants</strong> de plus de 12 ans</span>
+                  <span className="text-readable">Je viens avec <strong>4 personnes</strong> (dont 3 enfants)</span>
                 </label>
               </div>
             </div>
@@ -287,11 +292,11 @@ export default function RSVPForm() {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="dietary" className="block mb-2">Infos en plus ? </label>
+              <label htmlFor="infos" className="block mb-2">Infos en plus ? </label>
               <textarea
-                id="dietary"
-                value={dietary}
-                onChange={(e) => setDietary(e.target.value)}
+                id="infos"
+                value={infos}
+                onChange={(e) => setInfos(e.target.value)}
                 placeholder="Si tu veux nous laisser un petit mot, une précision ou autre, c'est ici !"
                 rows="4"
                 className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald min-h-[100px]"
