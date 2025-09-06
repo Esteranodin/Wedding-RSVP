@@ -1,0 +1,10 @@
+.noAnimations * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+.noAnimations .animate-fadeIn {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}

@@ -7,13 +7,15 @@ import { db } from '../lib/firebase';
 export default function RSVPForm() {
   const [lastname, setLastname] = useState('');
   const [firstname, setFirstname] = useState('');
-  const [attending, setAttending] = useState(true);
-  const [sleeping, setSleeping] = useState(true);
-  const [guests, setGuests] = useState(0);
+  const [attending, setAttending] = useState(null);
+  const [sleeping, setSleeping] = useState(null);
+  const [guests, setGuests] = useState('');
   const [dietary, setDietary] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [attendingEvents, setAttendingEvents] = useState(['ceremony', 'party']);
+  const [attendingEvents, setAttendingEvents] = useState([]);
   const [error, setError] = useState('');
+
+  const isPartySelected = attendingEvents.includes('party');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +32,16 @@ export default function RSVPForm() {
       setError("Merci de sélectionner au moins 'Cérémonie' ou 'Soirée'.");
       return;
     }
-    if (attending && (isNaN(guests) || guests < 0)) {
+    if (attending && guests === '') {
+      setError('Merci d\'indiquer le nombre de personnes.');
+      return;
+    }
+    if (attending && (isNaN(parseInt(guests)) || parseInt(guests) < 0)) {
       setError('Le nombre d\'accompagnants est invalide.');
+      return;
+    }
+    if (attending && isPartySelected && sleeping === null) {
+      setError('Merci d\'indiquer si vous dormez sur place.');
       return;
     }
 
@@ -47,7 +57,7 @@ export default function RSVPForm() {
         dietary,
         timestamp: new Date()
       });
-      
+
       setSubmitted(true);
     } catch (error) {
       setError("Erreur lors de l'envoi du formulaire. Veuillez réessayer.");
@@ -57,10 +67,10 @@ export default function RSVPForm() {
 
   if (submitted) {
     return (
-      <div className="card-elegant text-center">
-        <h2 className="title-secondary mb-4">Merci pour votre réponse !</h2>
-        <p className="text-readable">
-          Nous avons bien reçu votre confirmation.<br/>
+      <div className="card-elegant">
+        <h2 className="title-secondary mb-6 text-deep-emerald">Merci pour votre réponse&nbsp;!</h2>
+        <p className="text-readable text-center mb-4">
+          Nous avons bien reçu votre confirmation.<br />
           À très bientôt pour faire la fête ! 🎉
         </p>
       </div>
@@ -68,19 +78,14 @@ export default function RSVPForm() {
   }
 
   return (
-    <div className="space-y-6">
-      {error && (
-        <div className="mb-4 p-2 bg-red-100 text-red-700 rounded text-center">
-          {error}
-        </div>
-      )}
+    <div className="max-w-2xl mx-auto">
 
-      <h2 className="title-secondary mb-12"> - En remplissant tous les champs de ce formulaire, merci ♥ -</h2>
+      <h2 className="title-secondary mb-8 text-center"> - En remplissant tous les champs de ce formulaire, merci ♥ -</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-8 center-item">
-        <div className="flex flex-col md:flex-row gap-4 justify-center">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="flex flex-col md:flex-row gap-4 justify-between">
           <div className="flex-1">
-            <label htmlFor="lastname">Nom</label>
+            <label htmlFor="lastname" className="block">Nom</label>
             <input
               type="text"
               id="lastname"
@@ -90,7 +95,7 @@ export default function RSVPForm() {
             />
           </div>
           <div className="flex-1">
-            <label htmlFor="firstname">Prénom</label>
+            <label htmlFor="firstname" className="block">Prénom</label>
             <input
               type="text"
               id="firstname"
@@ -100,39 +105,48 @@ export default function RSVPForm() {
             />
           </div>
         </div>
-        
-        <div>
-          <label className="mb-4 block">Est-ce que tu viens ?</label>
-          <div className="space-y-3 flex flex-wrap gap-6">
-            <label className="items-center space-x-0 cursor-pointer">
-              <input 
-                type="radio" 
+
+        <div className="mb-6">
+          <label className="block">Est-ce que tu viens ? (coche la bonne réponse)</label>
+          <div className="flex flex-wrap gap-6">
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input
+                type="radio"
                 name="attending"
-                checked={attending} 
+                checked={attending === true}
                 onChange={() => setAttending(true)}
+                className="sr-only"
               />
-              <span className="text-readable">Je serai présent(e) 🥳</span>
+              <div className={`w-6 h-6 border-2 rounded-full ${attending === true ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}>
+              </div>
+              <span className="text-readable">Je serai 🥳 présent(e)</span>
             </label>
-            <label>
-              <input 
-                type="radio" 
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input
+                type="radio"
                 name="attending"
-                checked={!attending} 
-                onChange={() => setAttending(false)}
+                checked={attending === false}
+                onChange={() => {
+                  setAttending(false);
+                  setAttendingEvents([]);
+                }}
+                className="sr-only"
               />
-              <span className="text-readable">Je ne pourrai pas venir 😭</span>
+              <div className={`w-6 h-6 border-2 rounded-full ${attending === false ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}>
+              </div>
+              <span className="text-readable">Je ne pourrai pas venir</span>
             </label>
           </div>
         </div>
-        
+
+        {/* Questions supplémentaires seulement si la personne vient */}
         {attending && (
-          <>
-            <div>
-              <label className="mb-4 block">Tu viens à :</label>
-              <div className="space-y-3">
-                <label className="flex items-center space-x-3 cursor-pointer">
-                  <input 
-                    type="checkbox" 
+          <div className="mb-6">
+            <div className="mb-6">
+              <label className="block mb-3">Tu peux venir : (coche une ou deux cases)</label>
+                <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mb-2">
+                  <input
+                    type="checkbox"
                     checked={attendingEvents.includes('ceremony')}
                     onChange={(e) => {
                       if (e.target.checked) {
@@ -141,13 +155,15 @@ export default function RSVPForm() {
                         setAttendingEvents(attendingEvents.filter(event => event !== 'ceremony'));
                       }
                     }}
-                    className="w-5 h-5"
+                    className="sr-only"
                   />
-                  <span className="text-readable">Cérémonie (14h30)</span>
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${attendingEvents.includes('ceremony') ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}>
+                  </div>
+                  <span className="text-readable">à la cérémonie (14h30)</span>
                 </label>
-                <label className="flex items-center space-x-3 cursor-pointer">
-                  <input 
-                    type="checkbox" 
+                <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mb-2">
+                  <input
+                    type="checkbox"
                     checked={attendingEvents.includes('party')}
                     onChange={(e) => {
                       if (e.target.checked) {
@@ -156,69 +172,145 @@ export default function RSVPForm() {
                         setAttendingEvents(attendingEvents.filter(event => event !== 'party'));
                       }
                     }}
-                    className="w-5 h-5"
+                    className="sr-only"
                   />
-                  <span className="text-readable">Soirée (18h00)</span>
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${attendingEvents.includes('party') ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}>
+                  </div>
+                  <span className="text-readable">à la soirée (18h00)</span>
+                </label>
+            </div>
+
+            {/* Question sur l'hébergement uniquement si la personne vient à la soirée */}
+            {isPartySelected && (
+              <div className="mb-6">
+                <label className="block mb-3">Dormez-vous sur place au gîte ?</label>
+                  <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mb-2">
+                      <input
+                        type="radio"
+                        name="sleeping"
+                        checked={sleeping === true}
+                        onChange={() => setSleeping(true)}
+                        className="sr-only"
+                      />
+                      <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded-full ${sleeping === true ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
+                    <span className="text-readable">Oui, je dors sur place 😬</span>
+                  </label>
+                  <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mb-2">
+                      <input
+                        type="radio"
+                        name="sleeping"
+                        checked={sleeping === false}
+                        onChange={() => setSleeping(false)}
+                        className="sr-only"
+                      />
+                      <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded-full ${sleeping === false ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
+                    <span className="text-readable">Non, j'ai trouvé un endroit pour mieux dormir pas loin 🤣</span>
+                  </label>
+              </div>
+            )}
+
+            <div className="mb-6">
+              <label className="block mb-3">Qui vient avec toi ?</label>
+              <div className="flex flex-col items-start space-y-5">
+                <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
+                  <input
+                    type="radio"
+                    name="guests"
+                    checked={guests === '0'}
+                    onChange={() => setGuests('0')}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '0' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
+                  <span className="text-readable">Je viens <strong>seul(e)</strong> vu que Marion tyran l'a dit :)</span>
+                </label>
+                
+                <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
+                  <input
+                    type="radio"
+                    name="guests"
+                    checked={guests === '1'}
+                    onChange={() => setGuests('1')}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '1' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
+                  <span className="text-readable">J'ai <strong>1 conjoint(e)</strong> ou un +1</span>
+                </label>
+                
+                <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
+                  <input
+                    type="radio"
+                    name="guests"
+                    checked={guests === '2'}
+                    onChange={() => setGuests('2')}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '2' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
+                  <span className="text-readable">J'ai <strong>1 enfant</strong> de plus de 12 ans</span>
+                </label>
+                
+                <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
+                  <input
+                    type="radio"
+                    name="guests"
+                    checked={guests === '3'}
+                    onChange={() => setGuests('3')}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '3' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
+                  <span className="text-readable">J'ai <strong>2 enfants</strong> de plus de 12 ans</span>
+                </label>
+                
+                <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">
+                  <input
+                    type="radio"
+                    name="guests"
+                    checked={guests === '4'}
+                    onChange={() => setGuests('4')}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '4' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
+                  <span className="text-readable">J'ai <strong>3 enfants</strong> de plus de 12 ans</span>
                 </label>
               </div>
             </div>
 
-            <div>
-              <label className="mb-4 block">Dormez-vous sur place au gîte ?</label>
-              <div className="space-y-3">
-                <label className="flex items-center space-x-3 cursor-pointer">
-                  <input 
-                    type="radio" 
-                    name="sleeping"
-                    checked={sleeping} 
-                    onChange={() => setSleeping(true)}
-                    className="w-5 h-5"
-                  />
-                  <span className="text-readable">Oui, je dors sur place 😴</span>
-                </label>
-                <label className="flex items-center space-x-3 cursor-pointer">
-                  <input 
-                    type="radio" 
-                    name="sleeping"
-                    checked={!sleeping} 
-                    onChange={() => setSleeping(false)}
-                    className="w-5 h-5"
-                  />
-                  <span className="text-readable">Non, je rentre chez moi 🏠</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="guests">Nombre d'accompagnants</label>
-              <select 
-                id="guests" 
-                value={guests} 
-                onChange={(e) => setGuests(e.target.value)}
-              >
-                <option value="0">0 - Je viens seul(e)</option>
-                <option value="1">1 accompagnant</option>
-                <option value="2">2 accompagnants</option>
-                <option value="3">3 accompagnants</option>
-                <option value="4">4 accompagnants</option>
-              </select>
-            </div>
-            
-            <div>
-              <label htmlFor="dietary">Allergies alimentaires</label>
-              <textarea 
-                id="dietary" 
-                value={dietary} 
+            <div className="mb-6">
+              <label htmlFor="dietary" className="block mb-2">Allergies alimentaires</label>
+              <textarea
+                id="dietary"
+                value={dietary}
                 onChange={(e) => setDietary(e.target.value)}
-                placeholder="Précisez ici si vous avez des allergies ou des régimes alimentaires particuliers"
-                rows="3"
+                placeholder="Précises ici si tu as des ALLERGIES, on fera passer le mot au traiteur !"
+                rows="4"
+                className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald min-h-[100px]"
               />
             </div>
-          </>
+
+            <div className="mb-6">
+              <label htmlFor="dietary" className="block mb-2">Infos en plus ? </label>
+              <textarea
+                id="dietary"
+                value={dietary}
+                onChange={(e) => setDietary(e.target.value)}
+                placeholder="Si tu veux nous laisser un petit mot, une précision ou autre, c'est ici !"
+                rows="4"
+                className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald min-h-[100px]"
+              />
+            </div>
+          </div>
         )}
+
+        {error && (
+          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded mb-4 text-center animate-fadeIn">
+            {error}
+          </div>
+        )}
+
+        <div className="flex justify-center mt-8">
           <button type="submit" className="btn-elegant">
             Envoyer ma réponse
           </button>
+        </div>
       </form>
     </div>
   );

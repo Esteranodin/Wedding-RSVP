@@ -254,7 +254,7 @@ h3 {
 
 .title {
   font-family: var(--font-title);
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: clamp(2rem, 6vw, 2.8rem);
   font-weight: 700;
   color: var(--midnight);
   text-align: center;
@@ -264,13 +264,13 @@ h3 {
 }
 
 .title-secondary {
-  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
   color: var(--deep-emerald);
   text-align: center;
 }
 
 .text-decorative {
-  font-size: clamp(1.5rem, 2vw, 2.3rem);
+  font-size: clamp(1.5rem, 2vw, 2rem);
   margin: 1rem 0;
   color: var(--copper);
   letter-spacing: 0.2em;
@@ -280,7 +280,7 @@ h3 {
 }
 
 .text-link {
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(1rem, 2vw, 1.2rem);
   margin-bottom: 1rem;
   color: var(--copper);
   letter-spacing: 0.1em;
@@ -295,14 +295,14 @@ h3 {
 }
 
 .text-readable {
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
   color: var(--charcoal);
   line-height: 1.7;
   font-weight: 400;
 }
 
 .text-strong {
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: clamp(1.5rem, 2vw, 1.8rem);
   color: var(--charcoal);
   font-weight: 800;
   text-align: center;
@@ -378,8 +378,8 @@ h3 {
 .form-elegant input,
 .form-elegant select,
 .form-elegant textarea {
-  background: var(--ivory);
-  border: 1px solid var(--sage);
+  /* background: var(--ivory); */
+  border: 2px solid var(--sage);
   padding: 1rem 1.2rem;
   font-size: 1rem;
   width: 90%;
@@ -405,9 +405,9 @@ h3 {
   color: var(--midnight);
   font-weight: 600;
   margin-bottom: 0.5rem;
-  /* display: block; */
   font-size: 1.3rem;
   letter-spacing: 0.05em;
+  margin-bottom: 1rem;
 }
 
 /* ===============================================
@@ -437,6 +437,10 @@ h3 {
 
 .fade-in {
   animation: fadeIn 1s ease-in;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-in-out forwards;
 }
 
 @keyframes fadeIn {

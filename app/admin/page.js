@@ -5,6 +5,7 @@ import { collection, getDocs, query, orderBy, deleteDoc, doc } from 'firebase/fi
 import { db, auth } from '../../lib/firebase';
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
+import styles from '../no-animations.module.css';
 
 export default function Admin() {
   const [guests, setGuests] = useState([]);
@@ -46,7 +47,9 @@ export default function Admin() {
       const totalGuests = guestList.reduce((acc, guest) => {
         return guest.attending ? acc + 1 + (guest.guestCount || 0) : acc;
       }, 0);
-      const sleepingOnSite = guestList.filter(g => g.attending && g.sleeping).length;
+      const sleepingOnSite = guestList.reduce((acc, guest) => {
+        return (guest.attending && guest.sleeping) ? acc + 1 + (guest.guestCount || 0) : acc;
+      }, 0);
       
       setStats({ attending, notAttending, totalGuests, sleepingOnSite });
     } catch (error) {
@@ -91,29 +94,39 @@ export default function Admin() {
 
   if (loading) {
     return (
-      <div className="page-bg">
-        <div className="content-wrapper">
-          <div className="text-center">
-            <div className="text-decorative">Chargement...</div>
+      <div className={`page-bg ${styles.noAnimations}`}>
+        <section className="content-wrapper">
+          <div className="form-elegant">
+            <div className="text-center">
+              <div className="text-decorative">Chargement...</div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     );
   }
 
   return (
-    <div className="page-bg">
-      <div className="content-wrapper">
-        <div className="form-elegant w-full max-w-6xl">
-          <Link href="/" className="inline-block mb-6 text-decorative hover:opacity-70 transition-opacity">
-            ← Retour à l'accueil
-          </Link>
-          
-          <h1 className="title-main text-center mb-8">Administration</h1>
-          
+    <div className={`page-bg ${styles.noAnimations}`}>
+      <section className="content-wrapper">
+        <div className="form-elegant">
+          <div className="flex justify-between items-center mb-6">
+            <Link href="/" className="text-link">
+              ←&nbsp;Accueil
+            </Link>
+            
+            {user && (
+              <button onClick={handleLogout} className="text-link">
+                Déconnexion
+              </button>
+            )}
+          </div>
+
+          <h1 className="title">Vus d'ensemble ▼</h1>
+
           {!user ? (
             // Formulaire de connexion
-            <div className="card-elegant max-w-md mx-auto">
+            <div className="card-elegant">
               {error && (
                 <div className="mb-6 p-4 bg-red-100 text-red-700 border border-red-300 rounded">
                   {error}
@@ -122,96 +135,94 @@ export default function Admin() {
               
               <form onSubmit={handleLogin} className="space-y-6">
                 <div>
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email" className="block mb-2 font-medium">Email</label>
                   <input 
                     type="email" 
                     id="email"
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
                     required 
+                    className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="password">Mot de passe</label>
+                  <label htmlFor="password" className="block mb-2 font-medium">Mot de passe</label>
                   <input 
                     type="password" 
                     id="password"
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
                     required 
+                    className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald"
                   />
                 </div>
                 
-                <button type="submit" className="btn-elegant w-full">
-                  Se connecter
-                </button>
+                <div className="text-center">
+                  <button type="submit" className="btn-elegant hover-lift">
+                    Se connecter
+                  </button>
+                </div>
               </form>
             </div>
           ) : (
             // Dashboard admin
-            <div className="space-y-8">
-              <div className="flex justify-end">
-                <button onClick={handleLogout} className="btn-elegant">
-                  Déconnexion
-                </button>
-              </div>
-
+            <>
               {error && (
-                <div className="p-4 bg-red-100 text-red-700 border border-red-300 rounded">
+                <div className="mb-6 p-4 bg-red-100 text-red-700 border border-red-300 rounded">
                   {error}
                 </div>
               )}
               
               {/* Stats rapides */}
-              <div className="grid grid-cols-4 gap-6">
-                <div className="card-elegant text-center">
-                  <div className="title-secondary text-deep-emerald">{stats.attending}</div>
-                  <div className="text-decorative">Confirmés</div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="card-elegant text-center p-4">
+                  <div className="title-secondary text-deep-emerald mb-1">{stats.attending}</div>
+                  <div className="text-sm font-medium">invités ont répondu</div>
                 </div>
                 
-                <div className="card-elegant text-center">
-                  <div className="title-secondary text-dusty-rose">{stats.notAttending}</div>
-                  <div className="text-decorative">Absents</div>
+                <div className="card-elegant text-center p-4">
+                  <div className="title-secondary text-dusty-rose mb-1">{stats.notAttending}</div>
+                  <div className="text-sm font-medium">invités ne viennent pas</div>
                 </div>
                 
-                <div className="card-elegant text-center">
-                  <div className="title-secondary text-gold">{stats.totalGuests}</div>
-                  <div className="text-decorative">Total invités</div>
+                <div className="card-elegant text-center p-4">
+                  <div className="title-secondary text-gold mb-1">{stats.totalGuests}</div>
+                  <div className="text-sm font-medium">Total invités</div>
                 </div>
                 
-                <div className="card-elegant text-center">
-                  <div className="title-secondary text-deep-emerald">{stats.sleepingOnSite || 0}</div>
-                  <div className="text-decorative">Dorment sur place</div>
+                <div className="card-elegant text-center p-4">
+                  <div className="title-secondary text-deep-emerald mb-1">{stats.sleepingOnSite || 0}</div>
+                  <div className="text-sm font-medium">Dorment sur place</div>
                 </div>
               </div>
               
               {/* Liste simplifiée */}
               <div className="card-elegant">
-                <h2 className="title-secondary mb-6">Réponses ({guests.length})</h2>
+                <h2 className="title-secondary mb-6">📝 Réponses ({guests.length})</h2>
                 
                 {guests.length === 0 ? (
-                  <p className="text-center text-decorative py-8">Aucune réponse pour le moment</p>
+                  <p className="text-center py-8 text-sm font-medium">Aucune réponse pour le moment</p>
                 ) : (
                   <div className="space-y-4">
                     {guests.map(guest => (
-                      <div key={guest.id} className="p-4 bg-pearl bg-opacity-50 rounded border">
+                      <div key={guest.id} className="p-4 bg-sage bg-opacity-10 rounded-lg border border-gold">
                         <div className="flex justify-between items-start gap-4">
                           <div className="flex items-center gap-4">
                             <div className={`text-2xl ${guest.attending ? 'text-deep-emerald' : 'text-dusty-rose'}`}>
                               {guest.attending ? '✓' : '✗'}
                             </div>
                             <div>
-                              <div className="font-semibold text-readable">{guest.name}</div>
+                              <div className="font-semibold">{guest.name}</div>
                               {guest.lastname && guest.firstname && (
-                                <div className="text-sm text-decorative">{guest.firstname} {guest.lastname}</div>
+                                <div className="text-sm text-gray-600">{guest.firstname} {guest.lastname}</div>
                               )}
                             </div>
                           </div>
                           
                           <button 
                             onClick={() => deleteGuest(guest.id)}
-                            className="text-red-600 hover:text-red-800 text-sm px-2 py-1"
+                            className="text-red-600 hover:text-red-800 text-sm px-2 py-1 rounded-full hover:bg-red-50 transition-colors"
                             title="Supprimer"
                           >
                             🗑️
@@ -220,13 +231,13 @@ export default function Admin() {
                         
                         {guest.attending && (
                           <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                            <div className="text-center">
-                              <div className="font-semibold text-readable">+{guest.guestCount || 0}</div>
-                              <div className="text-xs text-decorative">accompagnants</div>
+                            <div className="text-center p-2 bg-white bg-opacity-50 rounded">
+                              <div className="font-semibold">+{guest.guestCount || 0}</div>
+                              <div className="text-xs text-gray-600">accompagnants</div>
                             </div>
                             
-                            <div className="text-center">
-                              <div className="font-semibold text-readable">
+                            <div className="text-center p-2 bg-white bg-opacity-50 rounded">
+                              <div className="font-semibold">
                                 {guest.attendingEvents ? 
                                   (guest.attendingEvents.includes('ceremony') && guest.attendingEvents.includes('party') ? 'Cérémonie + Soirée' :
                                    guest.attendingEvents.includes('ceremony') ? 'Cérémonie seule' :
@@ -234,29 +245,29 @@ export default function Admin() {
                                   : 'Non défini'
                                 }
                               </div>
-                              <div className="text-xs text-decorative">participation</div>
+                              <div className="text-xs text-gray-600">participation</div>
                             </div>
                             
-                            <div className="text-center">
-                              <div className="font-semibold text-readable">
+                            <div className="text-center p-2 bg-white bg-opacity-50 rounded">
+                              <div className="font-semibold">
                                 {guest.sleeping ? '😴 Oui' : '🏠 Non'}
                               </div>
-                              <div className="text-xs text-decorative">dort sur place</div>
+                              <div className="text-xs text-gray-600">dort sur place</div>
                             </div>
                             
-                            <div className="text-center">
-                              <div className="text-sm text-readable">
+                            <div className="text-center p-2 bg-white bg-opacity-50 rounded">
+                              <div className="text-sm">
                                 {guest.timestamp?.toDate().toLocaleDateString('fr-FR')}
                               </div>
-                              <div className="text-xs text-decorative">date réponse</div>
+                              <div className="text-xs text-gray-600">date réponse</div>
                             </div>
                           </div>
                         )}
                         
                         {guest.dietary && (
-                          <div className="mt-3 p-2 bg-white bg-opacity-50 rounded">
-                            <div className="text-xs text-decorative">Régimes alimentaires :</div>
-                            <div className="text-sm text-readable">{guest.dietary}</div>
+                          <div className="mt-3 p-3 bg-white bg-opacity-50 rounded">
+                            <div className="text-xs font-medium mb-1">Régimes alimentaires :</div>
+                            <div className="text-sm">{guest.dietary}</div>
                           </div>
                         )}
                       </div>
@@ -264,10 +275,10 @@ export default function Admin() {
                   </div>
                 )}
               </div>
-            </div>
+            </>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

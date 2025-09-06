@@ -105,6 +105,17 @@ export default function Infos() {
 
           {/* Dress code */}
           <div className="card-elegant">
+            <h2 className="title-secondary mb-6 text-flashy-pink">👶 Les bambins</h2>
+            <p className="text-readable mb-3">
+              Question délicate... mais nous avons choisi <strong>de ne pas convier les enfants de moins de 12 ans</strong>. <br />
+              Nous espérons que vous nous en tiendrez pas rigueur et trouverez facilement une solution de garde. <br />
+              Les lieux ne sont pas adpatés aux petits et nous aimerions que vous puissiez profiter pleinement de la soirée ! <br />
+              Merci de votre compréhension 🙏
+            </p>
+          </div>
+
+          {/* Dress code */}
+          <div className="card-elegant">
             <h2 className="title-secondary mb-6 text-flashy-pink">👕 Dress code</h2>
             <p className="text-readable mb-3">
               McDo le dit si bien 🙄 <strong>VENEZ COMME VOUS ÊTES !</strong>
@@ -192,8 +203,7 @@ export default function Infos() {
           {/* Bouton RSVP */}
           <div className="text-center mt-8">
             <Link href="/rsvp" className="btn-elegant hover-lift">
-              Confirmer ma présence
-              <div className="text-sm mt-1 opacity-80">Avant le 25 septembre 2025</div>
+              Confirmer ma présence <br /> (avant le 28 septembre 2025)
             </Link>
           </div>
         </div>

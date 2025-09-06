@@ -42,7 +42,7 @@ export default function Home() {
             href="/rsvp"
             className="btn-elegant"
           >
-            Pour confirmer votre présence (avant le 25&nbsp;septembre 2025), c'est ici !
+            Pour confirmer votre présence (avant le 28&nbsp;septembre 2025), c'est ici !
           </Link>
         </div>
       </section>

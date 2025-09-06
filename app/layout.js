@@ -70,7 +70,7 @@ export default function RootLayout({ children }) {
           
           <footer className="footer-elegant mt-auto">
           <p>© Les Chouks {new Date().getFullYear()}</p>
-          <Link href="/admin" onClick={closeMenu} className='text-rose-400 text-lg font-semibold'>Espace des témoins</Link>
+          <Link href="/admin" onClick={closeMenu} className='text-rose-400 text-lg font-semibold'>Espace témoins + MC</Link>
           </footer>
         </div>
       </body>
