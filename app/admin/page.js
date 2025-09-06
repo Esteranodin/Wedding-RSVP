@@ -122,7 +122,7 @@ export default function Admin() {
             )}
           </div>
 
-          <h1 className="title">Vus d'ensemble ▼</h1>
+          <h1 className="title">Espace admin ▼</h1>
 
           {!user ? (
             // Formulaire de connexion
