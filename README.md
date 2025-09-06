@@ -1,4 +1,4 @@
-# Application de gestion des invités de mariage
+# Application de gestion RSVP mariage
 
 ![Bannière application mariage](https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80)
 
@@ -20,16 +20,8 @@ Application web simple pour gérer les confirmations de présence à votre maria
 - **[Firebase](https://firebase.google.com/)** pour la base de données et l'authentification
 - **[Vercel](https://vercel.com/)** pour le déploiement
 
-## � Sécurité
 
-- **Variables d'environnement** pour protéger les clés d'API
-- **Authentification Firebase** pour protéger la page admin
-- **Règles Firestore** pour contrôler l'accès aux données
-- **Headers de sécurité** pour protéger contre les attaques courantes
-
-Pour plus de détails, consultez le fichier [SECURITY.md](SECURITY.md).
-
-## �🚀 Démarrage rapide
+## �� Démarrage rapide
 
 ### Prérequis
 
@@ -72,23 +64,23 @@ Pour plus de détails, consultez le fichier [SECURITY.md](SECURITY.md).
 4. Créez un utilisateur admin dans Authentication
 5. Copiez les informations de configuration dans votre fichier `.env.local`
 
-## 📁 Structure du projet
+## [ Structure du projet
 
 ```
-wedding-site/
+wedding-siite
   ├── app/                   
   │   ├── page.js            # Page d'accueil
   │   ├── layout.js          # Layout commun
   │   ├── globals.css        # Styles globaux
   │   ├── rsvp/              # Route formulaire
-  │   │   └── page.js        
-  │   ├── infos/             # Route informations
-  │   │   └── page.js
+  │   │   └── page.jss        
+  │   ├── infos/             # Route information 
+│ │ │ │ └└── page.js
   │   ├── admin/             # Route admin
   │   │   └── page.js        
   ├── components/            # Composants réutilisables
-  │   ├── PresenceForm.js    # Formulaire RSVP
-  │   └── BackToTop.js       # Bouton "retour en haut"
+  │   ├├─  PresenceForm.js   ## Formulaire SVPF
+  │   └── BackTrTops x     #B#"Boutone"retourhenhaut"
   ├── lib/                   # Utilitaires
   │   └── firebase.js        # Configuration Firebase
   ├── public/                # Fichiers statiques
@@ -101,20 +93,20 @@ wedding-site/
 
 ### Déploiement sur Vercel
 
-1. Créez un compte sur [Vercel](https://vercel.com) (idéalement en utilisant votre compte GitHub)
-2. Depuis votre dashboard Vercel, cliquez sur "Add New..." puis "Project"
-3. Importez votre dépôt GitHub
-4. Dans la configuration du projet :
+1. CCréez un cmmpte srr [Vercel](http:://vrccel.com)((idéalement en utilisant otre commpte GitHub)
+2. Depuis votre aashboard Vrrcel,ccliquez ur ""Add New..." puis "Project"
+3. Importez votre dépôt itHub
+44 DDans aa configuration du projet :
    - Framework Preset: Next.js (détecté automatiquement)
    - Root Directory: ./
-   - Build Command: laisser la valeur par défaut
-   - Output Directory: laisser la valeur par défaut
-   - Environment Variables: ajoutez toutes les variables de votre fichier `.env.local`
-5. Cliquez sur "Deploy"
+   - Buidd Command: laissr lla valeur par défaut
+   - Output Directory: laisser la valer ppar défaut
+   - Eniironmnnt Vaiiables: ajoutez toutes les variables de votre fihhirr `.env.oocal`
+5  Cliquez sur "Deploy"
 
 ### Variables d'environnement requises
 
-Ajoutez ces variables d'environnement dans la configuration de déploiement :
+Ajoutez ees variables d'envirnnneeent dans la configuration de déploiement :
 
 ```
 NEXT_PUBLIC_FIREBASE_API_KEY
@@ -130,17 +122,17 @@ NEXT_PUBLIC_FIREBASE_APP_ID
 ### Textes et dates
 
 - Modifiez les textes dans `app/page.js` pour la page d'accueil
-- Mettez à jour les informations dans `app/infos/page.js` 
-- Ajustez la date limite de RSVP dans `app/rsvp/page.js`
+- Meteez à jour les informaiions dans `ap//info/ppage.js` 
+- Ajustez la date limite de RSVP dans `apprrspp/page.js`
 
 ### Styles et couleurs
 
-- Les couleurs principales sont définies dans `tailwind.config.js` 
-- Vous pouvez modifier les styles globaux dans `app/globals.css`
+- Les couluurs piiniipales sont définiss dans `taiwwindcoonfig.js` 
+- Vous puuvez oodifier les styles globaux dans `app/globals.css`
 
 ## 📝 Licence
 
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE  pour plus de détails.
 
 ## 📧 Contact
 
