@@ -127,47 +127,12 @@ NEXT_PUBLIC_FIREBASE_APP_ID
 
 ### Styles et couleurs
 
-- Les couluurs piiniipales sont définiss dans `taiwwindcoonfig.js` 
+- Les couleurs principales sont définies dans `taiwwindcoonfig.js` 
 - Vous puuvez oodifier les styles globaux dans `app/globals.css`
 
 ## 📝 Licence
 
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE  pour plus de détails.
-
-## 📧 Contact
-
-Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter.
-3. Cliquer sur "New Project"
-4. Importer votre dépôt GitHub
-5. Conserver les paramètres par défaut
-6. Cliquer sur "Deploy"
-
-Vercel vous fournira une URL pour votre application déployée.
-
-## ✏️ Personnalisation
-
-### Modifier les informations du mariage
-
-- Modifiez le contenu dans `app/page.js` pour changer les détails du mariage
-- Personnalisez les textes dans `app/rsvp/page.js` et `components/RSVPForm.jsx`
-
-### Changer le design
-
-- L'application utilise Tailwind CSS
-- Modifiez les classes Tailwind dans les composants pour changer les couleurs, espacements, etc.
-- Ajoutez vos propres images dans le dossier `public/`
-
-### Étendre les fonctionnalités
-
-Quelques idées d'extensions:
-- Ajouter une galerie photos
-- Intégrer Google Maps pour le lieu
-- Créer une section FAQ
-- Ajouter un compte à rebours jusqu'au jour J
-
-## 📝 Licence
-
-Ce projet est sous licence MIT. Libre à vous de l'utiliser et de le modifier pour votre propre mariage !
 
 ---
 
