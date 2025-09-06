@@ -20,7 +20,16 @@ Application web simple pour gérer les confirmations de présence à votre maria
 - **[Firebase](https://firebase.google.com/)** pour la base de données et l'authentification
 - **[Vercel](https://vercel.com/)** pour le déploiement
 
-## 🚀 Démarrage rapide
+## � Sécurité
+
+- **Variables d'environnement** pour protéger les clés d'API
+- **Authentification Firebase** pour protéger la page admin
+- **Règles Firestore** pour contrôler l'accès aux données
+- **Headers de sécurité** pour protéger contre les attaques courantes
+
+Pour plus de détails, consultez le fichier [SECURITY.md](SECURITY.md).
+
+## �🚀 Démarrage rapide
 
 ### Prérequis
 

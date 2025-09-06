@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Collection guests: autoriser la lecture uniquement pour les utilisateurs authentifiés
+    // mais permettre à tous d'écrire (pour le formulaire RSVP)
+    match /guests/{document=**} {
+      allow read: if request.auth != null;
+      allow create: if true; // Permettre à tout le monde de soumettre le formulaire
+      allow update, delete: if request.auth != null; // Seuls les admins peuvent modifier/supprimer
+    }
+    
+    // Par défaut, refuser tout
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
