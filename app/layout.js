@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <head>
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;700;900&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
