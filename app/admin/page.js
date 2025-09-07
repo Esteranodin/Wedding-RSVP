@@ -254,6 +254,32 @@ export default function Admin() {
       }
     }
   };
+  
+  const clearAllInvitees = async () => {
+    if (window.confirm('⚠️ ATTENTION ⚠️\n\nÊtes-vous absolument sûr de vouloir supprimer TOUTE la liste d\'invités ?\n\nCette action est irréversible et supprimera tous les invités de votre liste.')) {
+      try {
+        setUpdateMessage("Suppression en cours...");
+        const q = query(collection(db, 'inviteList'));
+        const snapshot = await getDocs(q);
+        
+        const batch = writeBatch(db);
+        snapshot.docs.forEach((document) => {
+          batch.delete(doc(db, 'inviteList', document.id));
+        });
+        
+        await batch.commit();
+        fetchInviteList();
+        setUpdateMessage("La liste d'invités a été entièrement effacée.");
+        
+        setTimeout(() => {
+          setUpdateMessage("");
+        }, 3000);
+      } catch (error) {
+        console.error("Erreur lors de la suppression de la liste :", error);
+        setError("Erreur lors de la suppression de la liste d'invités");
+      }
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -385,7 +411,7 @@ export default function Admin() {
                     className={`px-4 py-2 ${activeTab === 'inviteList' ? 'bg-sage bg-opacity-20 border-b-2 border-gold' : ''}`}
                     onClick={() => setActiveTab('inviteList')}
                   >
-                    Liste complète
+                    Liste des invités
                   </button>
                 </div>
               </div>
@@ -547,6 +573,14 @@ export default function Admin() {
                       >
                         Vérifier réponses
                       </button>
+                      {inviteList.length > 0 && (
+                        <button 
+                          onClick={clearAllInvitees}
+                          className="px-3 py-1 bg-red-500 bg-opacity-20 hover:bg-opacity-30 rounded text-sm text-red-700"
+                        >
+                          Effacer tout
+                        </button>
+                      )}
                     </div>
                   </div>
                   
