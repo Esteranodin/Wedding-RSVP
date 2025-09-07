@@ -60,6 +60,7 @@ export default function RSVPForm() {
         sleeping,
         guestCount: Number(guests),
         dietary,
+        infos,
         timestamp: new Date()
       });
 
@@ -262,7 +263,7 @@ export default function RSVPForm() {
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '3' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                  <span className="text-readable">Je viens avec <strong>3 personnes</strong> (dont 2 enfant)</span>
+                  <span className="text-readable">Je viens avec <strong>3 personnes</strong> (dont 2 enfants)</span>
                 </label>
                 
                 <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">

@@ -72,7 +72,7 @@ export default function Infos() {
             <h3 className="text-decorative">À la fête !</h3>
             <p className="text-readable mb-5">
               Il y aura sans doute des voitures à suivre qui sauront où aller&nbsp;^^ <br />
-              Si jamais, voici des indications (les GPS risquent de vous faire passer par une piste foretière...)
+              Si jamais, voici des indications (les GPS risquent de vous faire passer par une piste forestière...)
             </p>
             <div style={{ width: "100%", height: "300px", borderRadius: "12px", overflow: "hidden" }} className='mb-6'>
               <iframe
@@ -110,7 +110,7 @@ export default function Infos() {
             <p className="text-readable mb-3">
               Question délicate... mais nous avons choisi <strong>de ne pas convier les enfants de moins de 12 ans</strong>. <br />
               Nous espérons que vous nous en tiendrez pas rigueur et trouverez facilement une solution de garde. <br />
-              Les lieux ne sont pas adpatés aux petits et nous aimerions que vous puissiez profiter pleinement de la soirée ! <br />
+              Les lieux ne sont pas adaptés aux petits et nous aimerions que vous puissiez profiter pleinement de la soirée ! <br />
               Merci de votre compréhension 🙏
             </p>
           </div>
@@ -129,7 +129,7 @@ export default function Infos() {
               ❄️🌡️ L'Allier coule à quelques mètres, habillez-vous <strong>CHAUDEMENT</strong>
             </p>
             <p className="text-readable">
-              🎃 Ok, c'est Samain (Halloween)...<br />Pour la <strong>cérémonie</strong> on aimerait bien que ça reste un mariage <strong>sans déguisement...</strong> mais le soir VOUS FAÎTES COMME VOUS VOULEZ !
+              🎃 Ok, c'est Samain (Halloween)...<br />Pour la <strong>cérémonie</strong> on aimerait bien que ça reste un mariage <strong>sans déguisement...</strong> mais le soir VOUS FAITES COMME VOUS VOULEZ !
             </p>
           </div>
 
@@ -141,7 +141,7 @@ export default function Infos() {
               On fait la fête dans un gîte pour qu'il soit possible de dormir sur place.
             </p>
             <p className="text-readable mb-3">
-              <strong>Priorité aux copains bringueurs </strong> qui pourront dormir en sécurité sans reprendre la voiture. Mais premier arrivé, premier servi ! Réservez<a href="/rsvp" className="font-bold text-rose-400"> ici</a>
+              <strong>Priorité aux copains bringueurs</strong> qui pourront dormir en sécurité sans reprendre la voiture. Mais premier arrivé, premier servi ! Réservez<a href="/rsvp" className="font-bold text-rose-400"> ici</a>
             </p>
             <p className="text-readable mb-4">
               → Il y a 27 places (max 30 places en comptant les fauteuils pour les grands bringueurs). <br />
