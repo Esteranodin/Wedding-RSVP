@@ -19,6 +19,7 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState('responses');
   const [showImportModal, setShowImportModal] = useState(false);
   const [csvFile, setCsvFile] = useState(null);
+  const [updateMessage, setUpdateMessage] = useState("");
 
   // Écoute l'état d'authentification
   useEffect(() => {
@@ -114,6 +115,9 @@ export default function Admin() {
           return;
         }
         
+        // Nombre d'invités importés
+        let importCount = 0;
+        
         // Parcourir les lignes et créer les documents
         for (let i = 1; i < rows.length; i++) {
           if (!rows[i].trim()) continue; // Ignorer les lignes vides
@@ -129,12 +133,19 @@ export default function Admin() {
               hasResponded: false,
               dateAdded: serverTimestamp()
             });
+            importCount++;
           }
         }
         
         fetchInviteList();
         setShowImportModal(false);
         setCsvFile(null);
+        setUpdateMessage(`${importCount} invité(s) importé(s) avec succès!`);
+        
+        // Faire disparaître le message après 3 secondes
+        setTimeout(() => {
+          setUpdateMessage("");
+        }, 3000);
       } catch (error) {
         console.error("Erreur lors de l'import :", error);
         setError("Erreur lors de l'importation du fichier");
@@ -146,27 +157,44 @@ export default function Admin() {
 
   const updateResponseStatus = async () => {
     try {
-      // Créer un Map avec les noms des invités qui ont répondu
+      // Fonction pour normaliser les chaînes de caractères (supprime les accents)
+      const normalizeString = (str) => {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      };
+      
+      // Créer un Map avec les noms normalisés des invités qui ont répondu
       const respondedNames = new Map();
       guests.forEach(guest => {
-        respondedNames.set(guest.name.toLowerCase(), guest);
+        // Normaliser le nom pour la comparaison (enlever accents et mettre en minuscules)
+        const normalizedName = normalizeString(guest.name);
+        respondedNames.set(normalizedName, guest);
       });
       
       // Mettre à jour le statut de réponse pour chaque invité
       const batch = writeBatch(db);
       
       for (const invitee of inviteList) {
-        const hasResponded = respondedNames.has(invitee.name.toLowerCase());
+        // Normaliser le nom de l'invité de la liste
+        const normalizedInviteeName = normalizeString(invitee.name);
+        
+        // Vérifier si une correspondance existe
+        const hasResponded = respondedNames.has(normalizedInviteeName);
         const inviteeRef = doc(db, 'inviteList', invitee.id);
         
         batch.update(inviteeRef, { 
           hasResponded,
-          responseDetails: hasResponded ? respondedNames.get(invitee.name.toLowerCase()) : null
+          responseDetails: hasResponded ? respondedNames.get(normalizedInviteeName) : null
         });
       }
       
       await batch.commit();
       fetchInviteList();
+      setUpdateMessage("La liste a été mise à jour avec succès!");
+      
+      // Faire disparaître le message après 3 secondes
+      setTimeout(() => {
+        setUpdateMessage("");
+      }, 3000);
     } catch (error) {
       console.error("Erreur lors de la mise à jour des statuts :", error);
       setError("Erreur lors de la vérification des réponses");
@@ -480,6 +508,11 @@ export default function Admin() {
                     </div>
                   </div>
                   
+                  {updateMessage && (
+                    <div className="p-3 mb-4 bg-green-100 border border-green-400 text-green-700 rounded text-center">
+                      {updateMessage}
+                    </div>
+                  )}
                   {inviteList.length === 0 ? (
                     <p className="text-center py-8">Aucun invité dans la liste</p>
                   ) : (
