@@ -157,21 +157,47 @@ export default function Admin() {
 
   const updateResponseStatus = async () => {
     try {
-      // Fonction pour normaliser les chaînes de caractères (supprime les accents)
+      // Fonction pour normaliser les chaînes de caractères (supprime les accents et uniformise la casse)
       const normalizeString = (str) => {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        if (!str) return '';
+        // 1. Convertir en minuscules
+        // 2. Supprimer les accents
+        // 3. Supprimer les espaces multiples
+        // 4. Supprimer les caractères spéciaux (tirets, apostrophes, etc.)
+        return str
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/\s+/g, " ")
+          .replace(/[^a-z0-9\s]/g, "")
+          .trim();
       };
       
       // Créer un Map avec les noms normalisés des invités qui ont répondu
       const respondedNames = new Map();
       guests.forEach(guest => {
-        // Normaliser le nom pour la comparaison (enlever accents et mettre en minuscules)
+        // Normaliser le nom pour la comparaison
         const normalizedName = normalizeString(guest.name);
+        // Stocker à la fois le nom complet normalisé
         respondedNames.set(normalizedName, guest);
+        
+        // Si le nom contient des espaces (prénom + nom), essayer aussi avec le prénom/nom seul
+        if (normalizedName.includes(' ')) {
+          const parts = normalizedName.split(' ');
+          // Essayer avec seulement le prénom (premier mot)
+          if (parts[0].length > 1) {
+            respondedNames.set(parts[0], guest);
+          }
+          // Essayer avec seulement le nom de famille (dernier mot)
+          if (parts[parts.length - 1].length > 1) {
+            respondedNames.set(parts[parts.length - 1], guest);
+          }
+        }
       });
       
       // Mettre à jour le statut de réponse pour chaque invité
       const batch = writeBatch(db);
+      let matchCount = 0;
       
       for (const invitee of inviteList) {
         // Normaliser le nom de l'invité de la liste
@@ -179,17 +205,33 @@ export default function Admin() {
         
         // Vérifier si une correspondance existe
         const hasResponded = respondedNames.has(normalizedInviteeName);
-        const inviteeRef = doc(db, 'inviteList', invitee.id);
         
+        // Si pas de correspondance exacte, essayer de chercher si le nom est contenu dans une réponse
+        let matchedGuest = null;
+        if (hasResponded) {
+          matchedGuest = respondedNames.get(normalizedInviteeName);
+          matchCount++;
+        } else if (normalizedInviteeName.length > 3) {
+          // Recherche partielle pour les noms plus longs que 3 caractères
+          for (const [responseName, guest] of respondedNames.entries()) {
+            if (responseName.includes(normalizedInviteeName) || normalizedInviteeName.includes(responseName)) {
+              matchedGuest = guest;
+              matchCount++;
+              break;
+            }
+          }
+        }
+        
+        const inviteeRef = doc(db, 'inviteList', invitee.id);
         batch.update(inviteeRef, { 
-          hasResponded,
-          responseDetails: hasResponded ? respondedNames.get(normalizedInviteeName) : null
+          hasResponded: !!matchedGuest,
+          responseDetails: matchedGuest || null
         });
       }
       
       await batch.commit();
       fetchInviteList();
-      setUpdateMessage("La liste a été mise à jour avec succès!");
+      setUpdateMessage(`La liste a été mise à jour avec succès! ${matchCount} correspondances trouvées.`);
       
       // Faire disparaître le message après 3 secondes
       setTimeout(() => {
