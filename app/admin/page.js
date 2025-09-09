@@ -177,7 +177,7 @@ export default function Admin() {
       guests.forEach(guest => {
         // Normaliser le nom pour la comparaison
         const normalizedName = normalizeString(guest.name);
-        // Stocker à la fois le nom complet normalisé
+        // Stocker uniquement le nom complet normalisé
         respondedNames.set(normalizedName, guest);
       });
       
