@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query, orderBy, deleteDoc, doc, addDoc, writeBatch, serverTimestamp } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, deleteDoc, doc, addDoc, writeBatch, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
@@ -23,6 +23,8 @@ export default function Admin() {
   const [updateMessage, setUpdateMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [editingGuest, setEditingGuest] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   // Écoute l'état d'authentification
   useEffect(() => {
@@ -293,6 +295,35 @@ export default function Admin() {
       }
     }
   };
+  
+  const updateGuest = async (guestId, updatedData) => {
+    try {
+      // Mise à jour du nom complet si prénom ou nom a changé
+      if (updatedData.firstname || updatedData.lastname) {
+        const firstname = updatedData.firstname || editingGuest.firstname;
+        const lastname = updatedData.lastname || editingGuest.lastname;
+        updatedData.name = `${firstname} ${lastname}`;
+      }
+      
+      await updateDoc(doc(db, 'guests', guestId), updatedData);
+      fetchGuests(); // Recharger les données
+      setShowEditModal(false);
+      setEditingGuest(null);
+      setUpdateMessage("La réponse a été mise à jour avec succès!");
+      
+      setTimeout(() => {
+        setUpdateMessage("");
+      }, 3000);
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour :", error);
+      setError("Erreur lors de la mise à jour de la réponse");
+    }
+  };
+  
+  const openEditModal = (guest) => {
+    setEditingGuest({...guest});
+    setShowEditModal(true);
+  };
 
   if (loading) {
     return (
@@ -502,13 +533,22 @@ export default function Admin() {
                                 </div>
                               </div>
                               
-                              <button 
-                                onClick={() => deleteGuest(guest.id)}
-                                className="text-red-600 hover:text-red-800 text-sm px-2 py-1 rounded-full hover:bg-red-50 transition-colors"
-                                title="Supprimer"
-                              >
-                                🗑️
-                              </button>
+                              <div className="flex space-x-2">
+                                <button 
+                                  onClick={() => openEditModal(guest)}
+                                  className="text-blue-600 hover:text-blue-800 text-sm px-2 py-1 rounded-full hover:bg-blue-50 transition-colors"
+                                  title="Modifier"
+                                >
+                                  ✏️
+                                </button>
+                                <button 
+                                  onClick={() => deleteGuest(guest.id)}
+                                  className="text-red-600 hover:text-red-800 text-sm px-2 py-1 rounded-full hover:bg-red-50 transition-colors"
+                                  title="Supprimer"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
                             </div>
                             
                             {guest.attending && (
@@ -716,6 +756,199 @@ export default function Admin() {
                           className="btn-elegant hover-lift px-6 py-2"
                         >
                           Importer
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+              
+              {/* Modal d'édition de réponse */}
+              {showEditModal && editingGuest && (
+                <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+                  <div className="bg-white rounded-lg p-8 max-w-lg w-full border-2 border-gold shadow-xl overflow-y-auto max-h-[90vh]">
+                    <h3 className="title-secondary text-xl mb-4 text-center">Modifier la réponse</h3>
+                    
+                    <form onSubmit={(e) => {
+                      e.preventDefault();
+                      updateGuest(editingGuest.id, editingGuest);
+                    }} className="space-y-4">
+                      <div className="flex flex-col md:flex-row gap-4 justify-between">
+                        <div className="flex-1">
+                          <label htmlFor="lastname" className="block mb-1 font-medium">Nom</label>
+                          <input
+                            type="text"
+                            id="lastname"
+                            value={editingGuest.lastname || ''}
+                            onChange={e => setEditingGuest({...editingGuest, lastname: e.target.value})}
+                            className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald rounded p-2"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <label htmlFor="firstname" className="block mb-1 font-medium">Prénom</label>
+                          <input
+                            type="text"
+                            id="firstname"
+                            value={editingGuest.firstname || ''}
+                            onChange={e => setEditingGuest({...editingGuest, firstname: e.target.value})}
+                            className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald rounded p-2"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block mb-1 font-medium">Participe</label>
+                        <div className="flex flex-wrap gap-4">
+                          <label className="flex items-center space-x-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              checked={editingGuest.attending === true}
+                              onChange={() => setEditingGuest({...editingGuest, attending: true})}
+                              className="accent-deep-emerald h-4 w-4"
+                            />
+                            <span>Oui</span>
+                          </label>
+                          <label className="flex items-center space-x-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              checked={editingGuest.attending === false}
+                              onChange={() => setEditingGuest({...editingGuest, attending: false})}
+                              className="accent-deep-emerald h-4 w-4"
+                            />
+                            <span>Non</span>
+                          </label>
+                        </div>
+                      </div>
+                      
+                      {editingGuest.attending && (
+                        <>
+                          <div>
+                            <label className="block mb-1 font-medium">Événements</label>
+                            <div className="flex flex-col gap-2">
+                              <label className="flex items-center space-x-2 cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={editingGuest.attendingEvents?.includes('ceremony')}
+                                  onChange={(e) => {
+                                    const events = editingGuest.attendingEvents || [];
+                                    if (e.target.checked) {
+                                      setEditingGuest({
+                                        ...editingGuest, 
+                                        attendingEvents: [...events.filter(e => e !== 'ceremony'), 'ceremony']
+                                      });
+                                    } else {
+                                      setEditingGuest({
+                                        ...editingGuest, 
+                                        attendingEvents: events.filter(e => e !== 'ceremony')
+                                      });
+                                    }
+                                  }}
+                                  className="accent-deep-emerald h-4 w-4"
+                                />
+                                <span>Cérémonie</span>
+                              </label>
+                              <label className="flex items-center space-x-2 cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={editingGuest.attendingEvents?.includes('party')}
+                                  onChange={(e) => {
+                                    const events = editingGuest.attendingEvents || [];
+                                    if (e.target.checked) {
+                                      setEditingGuest({
+                                        ...editingGuest, 
+                                        attendingEvents: [...events.filter(e => e !== 'party'), 'party']
+                                      });
+                                    } else {
+                                      setEditingGuest({
+                                        ...editingGuest, 
+                                        attendingEvents: events.filter(e => e !== 'party')
+                                      });
+                                    }
+                                  }}
+                                  className="accent-deep-emerald h-4 w-4"
+                                />
+                                <span>Soirée</span>
+                              </label>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block mb-1 font-medium">Nombre d'accompagnants</label>
+                            <input
+                              type="number"
+                              min="0"
+                              value={editingGuest.guestCount || 0}
+                              onChange={e => setEditingGuest({...editingGuest, guestCount: parseInt(e.target.value)})}
+                              className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald rounded p-2"
+                            />
+                          </div>
+                          
+                          {editingGuest.attendingEvents?.includes('party') && (
+                            <div>
+                              <label className="block mb-1 font-medium">Dort sur place</label>
+                              <div className="flex flex-wrap gap-4">
+                                <label className="flex items-center space-x-2 cursor-pointer">
+                                  <input
+                                    type="radio"
+                                    checked={editingGuest.sleeping === true}
+                                    onChange={() => setEditingGuest({...editingGuest, sleeping: true})}
+                                    className="accent-deep-emerald h-4 w-4"
+                                  />
+                                  <span>Oui</span>
+                                </label>
+                                <label className="flex items-center space-x-2 cursor-pointer">
+                                  <input
+                                    type="radio"
+                                    checked={editingGuest.sleeping === false}
+                                    onChange={() => setEditingGuest({...editingGuest, sleeping: false})}
+                                    className="accent-deep-emerald h-4 w-4"
+                                  />
+                                  <span>Non</span>
+                                </label>
+                              </div>
+                            </div>
+                          )}
+                          
+                          <div>
+                            <label htmlFor="dietary" className="block mb-1 font-medium">Régimes alimentaires</label>
+                            <textarea
+                              id="dietary"
+                              value={editingGuest.dietary || ''}
+                              onChange={e => setEditingGuest({...editingGuest, dietary: e.target.value})}
+                              className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald rounded p-2"
+                              rows="3"
+                            />
+                          </div>
+                          
+                          <div>
+                            <label htmlFor="infos" className="block mb-1 font-medium">Informations supplémentaires</label>
+                            <textarea
+                              id="infos"
+                              value={editingGuest.infos || ''}
+                              onChange={e => setEditingGuest({...editingGuest, infos: e.target.value})}
+                              className="w-full border-gold focus:ring-deep-emerald focus:border-deep-emerald rounded p-2"
+                              rows="3"
+                            />
+                          </div>
+                        </>
+                      )}
+                      
+                      <div className="flex justify-between gap-4 pt-4">
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            setShowEditModal(false);
+                            setEditingGuest(null);
+                          }}
+                          className="px-6 py-2 border-2 border-gold rounded-md hover:bg-sage hover:bg-opacity-10 transition-colors"
+                        >
+                          Annuler
+                        </button>
+                        <button 
+                          type="submit"
+                          className="btn-elegant hover-lift px-6 py-2"
+                        >
+                          Enregistrer
                         </button>
                       </div>
                     </form>
