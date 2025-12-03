@@ -70,8 +70,8 @@ export default function RootLayout({ children }) {
           {children}
           
           <footer className="footer-elegant mt-auto">
-          <p>© Esteranodin{new Date().getFullYear()}</p>
           <Link href="/admin" onClick={closeMenu} className='text-rose-400 text-lg font-semibold'>Espace témoins + mariés</Link>
+          <p>© Esteranodin {new Date().getFullYear()}</p>
           </footer>
         </div>
       </body>
