@@ -165,7 +165,7 @@ export default function RSVPForm() {
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${attendingEvents.includes('ceremony') ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}>
                   </div>
-                  <span className="text-readable">à la cérémonie (14h30)</span>
+                  <span className="text-readable">à la cérémonie (heure)</span>
                 </label>
                 <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mb-2">
                   <input
@@ -182,14 +182,14 @@ export default function RSVPForm() {
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${attendingEvents.includes('party') ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}>
                   </div>
-                  <span className="text-readable">à la soirée (18h00)</span>
+                  <span className="text-readable">à la soirée (heure)</span>
                 </label>
             </div>
 
             {/* Question sur l'hébergement uniquement si la personne vient à la soirée */}
             {isPartySelected && (
               <div className="mb-6">
-                <label className="block mb-3">Dormez-vous sur place au gîte ?</label>
+                <label className="block mb-3">Dormez-vous sur place ?</label>
                   <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer mb-2">
                       <input
                         type="radio"
@@ -227,7 +227,7 @@ export default function RSVPForm() {
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 border-2 rounded ${guests === '0' ? 'bg-[#9CAF88] border-[#2D5A3D]' : 'border-[#2D5A3D]'}`}></div>
-                  <span className="text-readable">Je viens <strong>seul(e)</strong> (Marion, ce mini tyran me l'a dit 😬)</span>
+                  <span className="text-readable">Je viens <strong>seul(e)</strong></span>
                 </label>
                 
                 <label className="flex items-center space-x-4 sm:space-x-5 cursor-pointer p-2 w-full hover:bg-sage hover:bg-opacity-5 rounded-lg transition-colors">

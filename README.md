@@ -107,7 +107,8 @@ wedding-rsvp/
 
 ## 📝 Personnalisation
 
-- Modifiez les textes dans `app/page.js`, `app/infos/page.js`, `app/rsvp/page.js`
+- Modifiez les textes dans `app/page.js`, `app/infos/page.js`, `components\PresenceForm.js`
+- Mettez à jour les bonnes localisations des maps, (en attendant c'est Versailles ^^)
 - Changez les couleurs dans `tailwind.config.js`
 - Ajoutez vos images dans `public/`
 

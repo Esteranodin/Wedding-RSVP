@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
             
                 <Image 
                   src="/m-logo.png" 
-                  alt="Marion & Benjamin" 
+                  alt="Prénom & Prénom" 
                   width={100} 
                   height={150}
                   className="logo-wedding-small"
@@ -70,8 +70,8 @@ export default function RootLayout({ children }) {
           {children}
           
           <footer className="footer-elegant mt-auto">
-          <p>© Les Chouks {new Date().getFullYear()}</p>
-          <Link href="/admin" onClick={closeMenu} className='text-rose-400 text-lg font-semibold'>Espace témoins + MC</Link>
+          <p>© Esteranodin{new Date().getFullYear()}</p>
+          <Link href="/admin" onClick={closeMenu} className='text-rose-400 text-lg font-semibold'>Espace témoins + mariés</Link>
           </footer>
         </div>
       </body>
